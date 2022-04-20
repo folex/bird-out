@@ -21,6 +21,7 @@ sequenceDiagram
         SG ->> BL: withdraw task.price from DevA
         SG ->> ANS: new task (rank in most expensive)
         end
+        SG -->> M: OK
         %% note right of Fluence: Keys can be EC, RSA, etc
     end
 
@@ -33,6 +34,7 @@ sequenceDiagram
             SG ->> BL: pay task.payment to DevA
             SG ->> ANS: completed (rank in biggest payouts)
         end
+        SG -->> DA: OK
     end
 
     %% Manager -->|Open| TT(Task Tracker)
