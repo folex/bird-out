@@ -22,8 +22,11 @@
 ## Backend services
 - Authorization
     - API:
-        - Promote(user, Role)
         - Auth(username) -> Role
+        - Register(Role, username) -> user
+        - Promote(user, Role)
+
+- Saga service
 
 - Billing
     - API:
@@ -48,11 +51,13 @@
         - list_all
         - list_by_user(user)
         - list_by_role(role)
+    - DTO:
+        - Task { price, status, assignee, creator? }
 
 - Analytics service?
     - Events:
         - New Task: price, role, payment
-        - Reassign: old_assignee, new_assignee
+        - ??? Reassign: old_assignee, new_assignee
         - Completed: payment, assignee, role
     - Queries:
         - Most expensive task for 1d, 7d, 30d
@@ -62,6 +67,6 @@
         - Total completed by role
 
 ## Questions
-- Do we create money from thin air if `task.price < task.payment`
+- Do we create money out of thin air if `task.price < task.payment`
 - What about initial balances? At least for management
 - How does management earn money?

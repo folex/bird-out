@@ -1,0 +1,40 @@
+sequenceDiagram
+    participant M as Manager
+    %% participant Admin
+    participant DA as DeveloperA
+    %% participant DeveloperB
+    participant SG as Saga
+    participant AS as Auth Service
+    participant TT as Task Service
+    participant BL as Billing
+    participant ANS as Analytics
+
+    note left of SG: frontends are omitted
+
+    rect rgba(100, 200, 200, 0.3)
+        note left of M: Create task
+        M ->> AS: authorize
+        AS -->> M: OK
+        M ->> SG: create task
+        par
+        SG ->> TT: assign to DevA
+        SG ->> BL: withdraw task.price from DevA
+        SG ->> ANS: new task (rank in most expensive)
+        end
+        %% note right of Fluence: Keys can be EC, RSA, etc
+    end
+
+    rect rgba(255, 230, 150, 0.3)
+        note left of DA: complete task
+        note right of DA: DRY: authorize
+        DA ->> SG: complete task
+        par
+            SG ->> TT: mark completed
+            SG ->> BL: pay task.payment to DevA
+            SG ->> ANS: completed (rank in biggest payouts)
+        end
+    end
+
+    %% Manager -->|Open| TT(Task Tracker)
+    %% TT -->|Authorize| AS(Auth Service)
+    %% Manager -->|Create task| TT
